@@ -1,0 +1,337 @@
+# PRD — CrewAI‑Powered Lead & Content Studio (GUI Python, Membership Web Tool)
+
+**Doc owner:** —
+**Version:** 0.9 (Draft)
+**Last updated:** 05 Sep 2025 (IST)
+
+---
+
+## 1) Executive Summary
+
+Content creators and small teams need two things on loop: (1) a steady inflow of qualified leads/partnerships and (2) tailored, platform‑native content that converts. This product is a GUI‑first **Python** application (with a membership‑gated web UI) that orchestrates a swarm of **CrewAI agents** to research niches, surface leads, and generate channel‑specific content—inside a single chat‑centric workspace. Think “research studio + lead engine + content workshop,” with memory, compliance, and exports baked in.
+
+---
+
+## 2) Problem, Opportunity, and Vision
+
+**Problem.** Creators spend hours context‑switching across tools (search, spreadsheets, CRMs, editors). Lead scraping is fragile and risky. Content often lacks the nuance of each platform’s culture and algorithm.
+
+**Opportunity.** Agentic research + structured workflows can compress hours into minutes. A centralized, compliant, and opinionated pipeline that moves from **topic → research → leads → content** turns chaos into a ritual.
+
+**Vision.** A humble studio where creators whisper prompts and a tireless ensemble of agents brings back sources, people, angles, scripts, and outreach drafts—auditable, exportable, and respectful of boundaries online.
+
+---
+
+## 3) Goals & Non‑Goals
+
+**Product Goals**
+
+1. Deliver accurate, source‑linked research summaries for any topic/niche.
+2. Discover and qualify **leads** (influencers, brands, communities, newsletters, podcasts) with structured fields.
+3. Generate **platform‑native content** (YouTube scripts, Instagram captions, LinkedIn posts, newsletter drafts) aligned to **topic, tone, platform**.
+4. Provide a **chat‑first GUI** that guides users: *Topic · Tone · Platform* and a mode toggle: **Research** or **Lead Generation** (or both).
+5. Membership model with quotas, credit accounting, and workspace history.
+
+**Non‑Goals (v1)**
+
+* Full CRM replacement (no multi‑stage sales pipelines).
+* Cold‑email sending infrastructure (drafts only; export to email tools).
+* Real‑time scraping of protected sites without permission; no bypass of paywalls.
+
+---
+
+## 4) Target Users & Personas
+
+* **Solo Creator (Primary):** 1–3 channels, wants fast credible research, a few qualified leads weekly, and platform‑ready drafts.
+* **Agency Marketer:** Runs many client projects; needs bulk projects, exports, and audit trails.
+* **Brand/Partnership Manager:** Seeks relevant creators and communities; wants verified contacts and message templates.
+
+---
+
+## 5) Core User Stories (Acceptance Criteria inline)
+
+1. **Topic Research via Chat**
+   *As a creator, I enter Topic, Tone, Platform → click Research.*
+   **AC:** Returns a brief + outline + top sources with links; shows evidence panel; saves session.
+
+2. **Lead Discovery**
+   *As a marketer, I input niche/geo/platform → get a table of leads.*
+   **AC:** Each lead has Name, Type (creator/brand/community), Platform, URL, Audience size (if public), Relevance score, Notes, and **Verification status**.
+
+3. **Platform‑Native Content**
+   *As a creator, I pick a platform and tone → get ready‑to‑post drafts.*
+   **AC:** Outputs follow platform best‑practice format (e.g., YouTube intro hook + beats; LinkedIn 3‑act post; IG caption + 10–15 hashtags; Newsletter outline + subject lines).
+
+4. **Outreach Drafts**
+   *As a user, for selected leads, generate outreach messages.*
+   **AC:** Provides 2–3 variants per channel, merges lead context + my brand voice (if provided), no sending—export only.
+
+5. **Membership & Credits**
+   *As a paid user, I can see credits and usage.*
+   **AC:** Quotas enforced per plan; clear error when exceeded; upgrade path.
+
+6. **Evidence & Compliance**
+   *As a user, I need to trust outputs.*
+   **AC:** Research summaries include citations; scraping respects robots.txt and rate limits; sensitive fields flagged.
+
+---
+
+## 6) High‑Level Experience
+
+### 6.1 Main Page (Chat Workspace)
+
+* **Inputs ribbon:** Topic · Tone · Platform (dropdown: YouTube, Instagram, LinkedIn, X, Newsletter, Blog) · Mode toggle (**Research / Leads / Both**)
+* **Advanced:** Niche/keywords, Geo, Language, Content length, “Include citations,” “Commercial intent,” Date range.
+* **Output tabs:** *Research · Leads · Content · Outreach · Sources*
+* **Session tools:** Save, Rename, Tag, Export (CSV/XLSX/Markdown/JSON), Pin to Project
+
+### 6.2 Lead Table
+
+* Columns: Name | Type | Platform | URL | Audience/Size | Contact (if public) | Relevance | Verification | Notes | Source
+* Filters: Platform, Geo, Audience range, Verified only, New vs known
+
+### 6.3 Content Composer
+
+* Presets per platform; button: *“Make 3 variants”*; sliders for tone/length; “Include CTA,” “Add emoji,” “Hashtag strategy.”
+
+---
+
+## 7) Mind Map (Concept Topology)
+
+* **Studio**
+
+  * **Chat** (Topic · Tone · Platform · Mode)
+  * **Research**
+
+    * Query design → SERP → Source ranking → Summaries → Citations
+    * Entities, trends, FAQs, controversies
+  * **Leads**
+
+    * Creators, Brands, Communities, Newsletters, Podcasts
+    * Discovery → Qualification → Verification
+  * **Content**
+
+    * Platform templates (YT/IG/LinkedIn/X/Newsletter/Blog)
+    * Voice model (brand memory) → Drafts → Variants → Export
+  * **Outreach**
+
+    * DM/email drafts → Merge lead context + brand voice
+  * **Membership**
+
+    * Plans, credits, usage
+  * **Compliance**
+
+    * Robots.txt, rate limits, DSAR, opt‑out registry
+
+---
+
+## 8) Requirements
+
+### 8.1 Functional Requirements
+
+1. **Chat Input Bar** with Topic, Tone, Platform, Mode toggle (Research/Leads/Both).
+2. **CrewAI Orchestration** of specialized agents: Researcher, Lead Hunter, Verifier, Content Tailor, Outreach Composer, Compliance.
+3. **Evidence Panel** with source links, timestamps, and extract snippets.
+4. **Leads Table** with export and deduplication against workspace history.
+5. **Content Generator** with platform‑specific structure + guardrails.
+6. **Outreach Drafts** tied to selected leads; merge voice memory.
+7. **Projects & History**: Save, tag, search sessions.
+8. **Membership & Credits**: Authentication, plan, limits, usage log.
+9. **Export** to CSV/XLSX/JSON/Markdown; copy‑to‑clipboard.
+10. **Settings**: Brand voice (examples), stop‑words, blocked domains, geo focus.
+
+### 8.2 Non‑Functional Requirements
+
+* **Performance:** Research response ≤ 12s P95 (with streaming UI); Leads ≤ 20s P95 for first 20 rows.
+* **Reliability:** Graceful degradation if an external API rate‑limits; partial results with badges.
+* **Security:** JWT/OAuth, salted password hashing, at‑rest encryption for tokens; PII minimization.
+* **Compliance:** Respect robots.txt; obey API ToS; include user‑visible disclaimers; opt‑out registry.
+* **Observability:** Structured logs, request IDs, trace per agent run; admin dashboard.
+* **Accessibility:** WCAG AA; keyboard navigation; high‑contrast theme toggle.
+
+---
+
+## 9) System Architecture (Python‑first)
+
+### 9.1 Recommended Stack
+
+* **Frontend (Web GUI):** Streamlit (fast Python GUI) *or* FastAPI + React (for scale). v1: **Streamlit** for speed.
+* **Backend:** FastAPI (agent orchestration endpoints, auth, credits). Streamlit calls FastAPI.
+* **Agents:** CrewAI (task graph + tools). LangChain‑lite only if needed.
+* **LLMs:** Pluggable: OpenAI/Gemini via user keys; budget mode via **OpenRouter**; **Local** fallback (Llama 3.x 8B/70B via Ollama). User choice in Settings.
+* **Vector Store:** Chroma/FAISS for brand memory and prior outputs.
+* **Storage:** Postgres (users, sessions, credits, leads, content). S3‑compatible blob for exports.
+* **Auth/Payments:** OAuth + email/password; Stripe/Razorpay for membership.
+* **Infra:** Docker Compose for local; optional Celery/RQ for long jobs.
+
+### 9.2 Key Services & Endpoints (FastAPI)
+
+* `POST /auth/signup`, `POST /auth/login`, `POST /auth/subscribe`
+* `POST /agents/run` (body: task graph config)
+* `POST /research/query` (topic, niche, geo, date, citations=true)
+* `POST /leads/search` (niche, platform\[], geo, min\_audience)
+* `POST /content/generate` (platform, tone, brief)
+* `POST /outreach/draft` (lead\_ids\[], persona)
+* `GET /sessions/:id`, `GET /sessions?query=...`, `POST /sessions/:id/save`
+* `GET /credits`, `POST /credits/consume`
+* `POST /export` (format, artifact\_ids\[])
+
+### 9.3 Data Model (simplified)
+
+* **users**(id, email, pwd\_hash, plan, created\_at)
+* **subscriptions**(id, user\_id, provider, status, renew\_at)
+* **projects**(id, user\_id, name, tags\[])
+* **sessions**(id, project\_id, mode, inputs\_json, outputs\_json, created\_at)
+* **sources**(id, session\_id, url, title, snippet, timestamp, trust\_score)
+* **leads**(id, session\_id, name, type, platform, url, audience, contact, verification\_status, notes, source\_ids\[])
+* **content\_items**(id, session\_id, platform, title, body, hashtags\[], variants\_json)
+* **credits\_log**(id, user\_id, action, cost, session\_id, created\_at)
+
+---
+
+## 10) CrewAI Design (Agents & Tools)
+
+### 10.1 Agents
+
+1. **Query Planner** — decomposes Topic into sub‑queries; sets research/lead tasks.
+2. **Researcher** — SERP/API search → ranks sources → summarizes with citations.
+3. **Lead Hunter** — discovers entities (creators/brands/communities) per platform; populates fields; flags uncertain stats.
+4. **Verifier** — validates URLs, checks activity recency, dedupes, sanity‑checks audience claims.
+5. **Content Tailor** — generates platform‑native drafts; adheres to tone & length; inserts CTAs.
+6. **Outreach Composer** — drafts DM/email templates conditioned on persona and lead context.
+7. **Compliance Guardian** — enforces robots.txt, rate limits, and ToS adherence; annotates risky fields.
+8. **Memory Keeper** — writes key facts to vector store; retrieves brand voice samples.
+
+### 10.2 Tools & Integrations (configurable)
+
+* **Search:** Bing Web Search API or SerpAPI; optional Reddit/YouTube/Twitter/X official APIs where permissible.
+* **Parsing:** newspaper3k, Readability, trafilatura (fallbacks); HTML → markdown normalizer.
+* **Validation:** Requests w/ backoff; WHOIS sanity; simple “active in last N days” heuristics.
+* **Local LLM:** Ollama runtime for offline mode; model selection per plan.
+* **PGP/Hashing:** For storing obfuscated contact hints when visible publicly (never scrape private emails).
+
+> **Reality check:** LinkedIn’s official API is restricted; do **not** promise LinkedIn contact scraping. Focus on public profiles/sites/newsletters/podcasts/YouTube/Twitter/X/Reddit where terms allow. Provide **manual import** CSV for users’ private lead lists.
+
+### 10.3 Prompt & Output Schemas (sketch)
+
+* **Researcher system prompt:** “You are a meticulous analyst. For each claim, attach a source with URL and date. Prefer primary sources.”
+  **Output JSON:** `{ thesis, key_points[], sources[] }`
+* **Lead Hunter output:** `{ name, type, platform, url, audience?:int, contact?:string_public, relevance:0..1, verification:"unverified|partial|verified", notes, sources:[url] }`
+* **Content Tailor output:** `{ platform, variants:[ { title?, body, hashtags?[], reading_time_sec } ] }`
+
+---
+
+## 11) Membership, Plans & Credit Model (Proposal)
+
+* **Free Trial:** 7 days; 50 research credits; 50 content credits; no lead export.
+* **Creator ₹699/mo:** 1,000 research/content credits; 200 lead rows/month; CSV export.
+* **Pro ₹1,999/mo:** 5,000 credits; 1,000 leads; project sharing; brand memory 50 docs.
+* **Agency ₹6,999/mo:** 25,000 credits; 5,000 leads; API access; SSO; audit logs.
+* **Credit costs (v1):** Research query = 5; Lead row = 2; Content variant = 3; Outreach draft = 1.
+
+---
+
+## 12) UI/UX Notes & Wireframes (ASCII)
+
+```
++---------------------------------------------------------------------------------+
+| Topic: [ How to grow a mindful parenting channel ]  Tone: [ Warm, data-backed ] |
+| Platform: [ YouTube v ]   Mode: (• Research) ( ) Leads ( ) Both                 |
+| [ Advanced ▾ ]  [ Run ]                                                            |
++---------------------------------------------------------------------------------+
+|  Tabs: [Research] [Leads] [Content] [Outreach] [Sources]                         |
+|                                                                                  |
+|  Research ▸ Thesis ▸ Key Points ▸ Citations (with links & dates)                 |
+|  Leads    ▸ Table with filters, verify badges, export button                     |
+|  Content  ▸ Platform presets, variants, copy buttons                             |
+|  Outreach ▸ Message templates per selected leads                                 |
+|  Sources  ▸ Evidence panel                                                        |
++---------------------------------------------------------------------------------+
+|  Footer: Credits left ▸ Plan ▸ Upgrade ▸ Settings ▸ Help                          |
++---------------------------------------------------------------------------------+
+```
+
+---
+
+## 13) Metrics & Analytics
+
+* **Activation:** % users who complete first run (research or leads) within 10 min.
+* **Time‑to‑Value:** Median time to first usable draft/lead list.
+* **Quality:** User “useful” votes on outputs; lead verification rate; content approval rate.
+* **Retention:** 7/30/90‑day active; project return rate.
+* **Unit Economics:** Cost/credit vs plan ARPU.
+
+---
+
+## 14) Risks & Mitigations (Tell‑it‑straight)
+
+* **API/ToS Risk:** Restricted sources (e.g., LinkedIn). *Mitigation:* Respect robots.txt; focus on permissive sources; manual CSV import.
+* **Hallucinations:** LLM paraphrases without sources. *Mitigation:* Strict citation requirement; source‑first generation; confidence badges.
+* **PII Handling:** Accidental collection of private emails. *Mitigation:* Only store public contacts; hash/obfuscate; user attestations.
+* **Rate Limits/Costs:** Exceed quotas. *Mitigation:* Credits, caching, per‑source backoff, local LLM mode.
+* **Platform Shifts:** Algorithm changes. *Mitigation:* Configurable templates; rapid preset updates.
+
+---
+
+## 15) Testing Strategy & Acceptance
+
+* **Unit tests:** Tools (search, parser, validator).
+* **Integration tests:** Agent graph happy‑paths and fallbacks.
+* **Golden datasets:** Known topics/leads; assert citations and field completeness.
+* **UX tests:** First‑run wizard; empty‑state clarity; error copy.
+* **Security tests:** Auth, role, rate limiting, token storage.
+* **Performance:** P95 latencies; load test 50 concurrent sessions.
+
+---
+
+## 16) Rollout Plan
+
+* **MVP (4–6 weeks):** Streamlit GUI, FastAPI backend; Researcher + Lead Hunter + Content Tailor; basic credits; CSV export.
+* **V1 (8–10 weeks):** Verifier, Outreach, Compliance agent; brand memory; Razorpay/Stripe; Projects.
+* **V1.1:** Team workspaces; API; SSO for Agency.
+
+---
+
+## 17) Open Questions
+
+* Which sources are “must‑have” for your niche mix (e.g., YouTube/Reddit/Quora/Podcast Index)?
+* Preferred default LLM stack (OpenRouter vs local Ollama default)?
+* Is WhatsApp/Telegram outreach draft formatting needed v1?
+
+---
+
+## 18) Appendix — Sample Configs
+
+**Crew graph (YAMLish)**
+
+```
+agents:
+  - id: planner
+    role: QueryPlanner
+  - id: researcher
+    role: Researcher
+  - id: leads
+    role: LeadHunter
+  - id: verify
+    role: Verifier
+  - id: tailor
+    role: ContentTailor
+  - id: outreach
+    role: OutreachComposer
+flows:
+  research:
+    - planner -> researcher
+  leads:
+    - planner -> leads -> verify
+  content:
+    - planner -> tailor
+```
+
+**Platform presets** (examples)
+
+* **YouTube:** Hook → Credibility → Value beats (3–5) → Summary → CTA
+* **LinkedIn:** 3‑act story → Lesson → CTA (comment/saves)
+* **Instagram:** Caption ≤ 2,200 chars; opening line punch; 10–15 hashtags
+* **Newsletter:** Subject line (3 variants) → Teaser → Sections → CTA
+
+> *In this studio we pair discipline with wonder. The agents do the digging; you keep the compass. Together we turn noise into signal—and signal into growth.*
