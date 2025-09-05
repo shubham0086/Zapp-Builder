@@ -1,0 +1,54 @@
+# Core Framework
+streamlit>=1.29.0
+fastapi>=0.104.0
+uvicorn[standard]>=0.24.0
+
+# AI & Agents
+crewai>=0.28.8
+langchain>=0.1.0
+langchain-openai>=0.0.8
+langchain-community>=0.0.10
+openai>=1.6.1
+anthropic>=0.8.1
+
+# Database & Storage
+sqlalchemy>=2.0.23
+psycopg2-binary>=2.9.9
+alembic>=1.12.1
+redis>=5.0.1
+pgvector>=0.2.4
+
+# Vector Database
+chromadb>=0.4.18
+sentence-transformers>=2.2.2
+
+# Web & API
+httpx>=0.25.2
+aiohttp>=3.9.1
+requests>=2.31.0
+beautifulsoup4>=4.12.2
+
+# Data Processing
+pandas>=2.1.4
+numpy>=1.25.2
+pydantic>=2.5.2
+pydantic-settings>=2.1.0
+
+# Authentication & Security
+python-jose[cryptography]>=3.3.0
+passlib[bcrypt]>=1.7.4
+python-multipart>=0.0.6
+
+# Utilities
+python-dotenv>=1.0.0
+loguru>=0.7.2
+tenacity>=8.2.3
+ratelimiter>=1.2.0
+click>=8.1.7
+httpx>=0.25.2
+
+# Development & Testing
+pytest>=7.4.3
+pytest-asyncio>=0.21.1
+black>=23.11.0
+isort>=5.12.0
